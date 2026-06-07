@@ -25,7 +25,7 @@ Le principali sono già in `render.yaml`. Verifica nel servizio web:
 
 - `GET /health`
 - `POST /api/validate` (Bearer required)
-- `GET /admin` (Basic Auth)
+- `GET /admin` (Basic Auth) — **pannello web**: crea licenze, cerca per email, collega installazioni (zero-input), invia codice via email, revoca/riattiva, **scollega** una singola installazione, **reset** di tutte le installazioni su una licenza
 
 Header:
 
@@ -33,11 +33,20 @@ Header:
 
 Body supportati:
 
-### Validazione con codice
+### Validazione con codice (attivazione manuale)
+
+Il client deve inviare anche `installation_id` (UUID macchina).  
+Ogni codice rispetta `max_installations` (default **1**).
 
 ```json
-{ "code": "ABC-123" }
+{
+  "code": "CECCA-HVFF-ZWVK",
+  "installation_id": "uuid-della-macchina",
+  "app_id": "zvanein"
+}
 ```
+
+Risposte di rifiuto utili: `max_installations_reached`, `installation_linked_other_license`.
 
 ### Validazione zero-input con installazione
 
